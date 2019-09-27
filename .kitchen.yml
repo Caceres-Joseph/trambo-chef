@@ -1,0 +1,31 @@
+---
+driver:
+  name: ec2
+  region: us-east-2
+  availability_zone: b
+  subnet_id: subnet-2c0e3355
+  instance_type: t2.micro
+  image_id: ami-027386b91d3c0bf78
+  security_group_ids: ["launch-wizard-1"]
+  retryable_tries: 120
+
+provisioner:
+  name: chef_zero
+
+verifier:
+  name: inspec
+
+transport:
+  ssh_key: /root/.ssh/learn-chef.pem
+
+platforms:
+  - name: Ubuntu Server 14.04 LTS (HVM)
+
+suites:
+  - name: default
+    run_list:
+      - recipe[learn_chef_apache2::default]
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:
