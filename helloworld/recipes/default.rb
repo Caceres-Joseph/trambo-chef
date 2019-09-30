@@ -7,8 +7,16 @@
 
 
 
-file "#{ENV['HOME']}/x.txt" do
-    content 'HELLO WORLD'
+# install redis
+package 'redis-server' do
+    action :install
+end
+  
+
+# installation should already enable and start the service
+service 'redis-server' do
+    action [:enable, :start]
 end
 
 
+#Chef::Log.info("********** Searching for master IP: #{instance['public_ip']} **********")
